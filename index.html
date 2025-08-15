@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>学級通信アシスト - 完全使い方ガイド</title>
+  <title>学級通信アシスト - 使い方ガイド（テンプレート版）</title>
   <style>
     :root {
       --primary-blue: #1976d2;
@@ -52,7 +52,28 @@
     .header .subtitle {
       font-size: 18px;
       color: var(--text-light);
-      margin: 0;
+      margin: 0 0 25px 0;
+    }
+    
+    .template-link {
+      display: inline-block;
+      padding: 18px 36px;
+      background: linear-gradient(135deg, var(--success-green) 0%, #2e7d32 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 20px;
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+      text-transform: none;
+    }
+    
+    .template-link:hover {
+      transform: translateY(-3px);
+      color: white;
+      text-decoration: none;
+      box-shadow: 0 8px 25px rgba(76, 175, 80, 0.5);
     }
     
     .container {
@@ -304,6 +325,22 @@
       text-decoration: none;
     }
     
+    .quick-start {
+      background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+      border: 2px solid #ff9800;
+      border-radius: 12px;
+      padding: 25px;
+      margin: 30px 0;
+    }
+    
+    .quick-start h3 {
+      background: none;
+      border: none;
+      padding: 0;
+      margin: 0 0 15px 0;
+      color: #e65100;
+    }
+    
     ol, ul {
       padding-left: 25px;
     }
@@ -362,18 +399,32 @@
 <body>
   <div class="header">
     <h1>📚 学級通信アシスト</h1>
-    <p class="subtitle">AIを使って学級通信を簡単に作成するツールの完全ガイド</p>
+    <p class="subtitle">AIを使って学級通信を簡単に作成するツール（テンプレート版）</p>
+    <a href="https://bit.ly/otayorikun" target="_blank" class="template-link">
+      📋 テンプレートをコピーして始める
+    </a>
   </div>
 
   <div class="container">
+    <!-- クイックスタート -->
+    <div class="quick-start">
+      <h3>🚀 クイックスタート（5分で開始）</h3>
+      <ol>
+        <li><strong><a href="https://bit.ly/otayorikun" target="_blank">テンプレート</a>を開き、「コピーを作成」</strong></li>
+        <li><strong>「学級通信支援」メニュー → 「サイドバーを開く」</strong>（権限許可が必要）</li>
+        <li><strong><a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio</a>でAPIキーを取得し、サイドバーで保存</strong></li>
+        <li><strong>箇条書きメモを入力 → 「学級通信を作成」</strong></li>
+      </ol>
+    </div>
+
     <!-- 目次 -->
     <div class="toc">
       <h2>📋 目次</h2>
       <div class="toc-grid">
         <div>
           <a href="#overview">1. このツールについて</a>
-          <a href="#setup">2. 初期設定（APIキー取得）</a>
-          <a href="#install">3. ツールのインストール</a>
+          <a href="#copy-template">2. テンプレートのコピー</a>
+          <a href="#setup">3. APIキーの設定</a>
           <a href="#style-learning">4. 文体学習の設定</a>
         </div>
         <div>
@@ -389,7 +440,7 @@
     <div class="section" id="overview">
       <h2>1. このツールについて</h2>
       
-      <p>学級通信アシストは、Google スプレッドシートとAI（Gemini）を組み合わせて、先生方の学級通信作成を大幅に効率化するツールです。<span class="highlight">箇条書きメモを入力するだけで、先生の文体に合わせた自然な文章を自動生成</span>します。</p>
+      <p>学級通信アシストは、Google スプレッドシートとAI（Gemini）を組み合わせて、先生方の学級通信作成を大幅に効率化するツールです。<span class="highlight">テンプレートをコピーするだけで、プログラムが既にインストール済み</span>の状態で使い始められます。</p>
 
       <div class="feature-grid">
         <div class="feature-card">
@@ -426,9 +477,78 @@
       </div>
     </div>
 
-    <!-- 初期設定 -->
+    <!-- テンプレートのコピー -->
+    <div class="section" id="copy-template">
+      <h2>2. テンプレートのコピー</h2>
+      
+      <p>まず、学級通信アシストのテンプレートをあなたのGoogleドライブにコピーします。<span class="highlight">プログラムが既にインストール済み</span>なので、コピーするだけですぐに使い始められます。</p>
+
+      <div class="step-container">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <div class="step-title">テンプレートリンクにアクセス</div>
+          <p>以下のボタンをクリックして、テンプレートを開きます。</p>
+          <a href="https://bit.ly/otayorikun" target="_blank" class="btn">📋 テンプレートを開く</a>
+        </div>
+      </div>
+
+      <div class="step-container">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <div class="step-title">スプレッドシートをコピー</div>
+          <p>テンプレートが開いたら、自分のドライブにコピーします：</p>
+          <ol>
+            <li>スプレッドシート上部の「ファイル」メニューをクリック</li>
+            <li>「コピーを作成」を選択</li>
+            <li>コピー名を「学級通信アシスト」など分かりやすい名前に変更</li>
+            <li>「コピーを作成」ボタンをクリック</li>
+          </ol>
+          <div class="alert alert-success">
+            <strong>完了！</strong>これであなた専用の学級通信アシストが作成されました。プログラムは既にインストール済みです。
+          </div>
+        </div>
+      </div>
+
+      <div class="step-container">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <div class="step-title">初回権限の許可（重要）</div>
+          <p>コピーしたスプレッドシートで初めて機能を使う際、Googleからの権限許可が必要です：</p>
+          <ol>
+            <li>「学級通信支援」メニュー → 「サイドバーを開く」をクリック</li>
+            <li>「承認が必要です」と表示されたら「権限を確認」をクリック</li>
+            <li>Googleアカウントを選択</li>
+            <li><strong>「このアプリは確認されていません」と表示されたら「詳細」をクリック</strong></li>
+            <li><strong>「安全でないページに移動」をクリック</strong></li>
+            <li>「許可」をクリック</li>
+          </ol>
+          <div class="alert alert-warning">
+            <strong>「確認されていません」について：</strong><br>
+            これは個人で作成したプログラムに対するGoogleの標準的な警告です。このプログラムは安全にお使いいただけます。「詳細」→「安全でないページに移動」で続行してください。
+          </div>
+        </div>
+      </div>
+
+      <div class="step-container">
+        <div class="step-number">4</div>
+        <div class="step-content">
+          <div class="step-title">動作確認</div>
+          <p>権限許可が完了すると、サイドバーが正常に表示されます：</p>
+          <ul>
+            <li>スプレッドシート上部のメニューに「学級通信支援」が表示されている</li>
+            <li>サイドバーに「📝 学級通信を作成」「🎨 私の文体を学習」「⚙️ 設定」のセクションが表示される</li>
+          </ul>
+          <div class="alert alert-info">
+            <strong>メニューが表示されない場合：</strong><br>
+            ページを再読み込み（F5キーまたはCtrl+R）してください。それでも表示されない場合は、数分待ってから再度確認してください。
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- APIキー設定 -->
     <div class="section" id="setup">
-      <h2>2. 初期設定（APIキー取得）</h2>
+      <h2>3. APIキーの設定</h2>
       
       <p>AIを使用するためには、Google の「Gemini API」のキーが必要です。<span class="highlight">無料で取得でき、個人利用なら月15万文字まで無料</span>で使用できます。</p>
 
@@ -487,100 +607,9 @@
       </div>
     </div>
 
-    <!-- インストール -->
-    <div class="section" id="install">
-      <h2>3. ツールのインストール</h2>
-      
-      <p>Google スプレッドシートに学級通信アシストのプログラムを設定します。</p>
-
-      <div class="step-container">
-        <div class="step-number">1</div>
-        <div class="step-content">
-          <div class="step-title">新しいスプレッドシートを作成</div>
-          <p>Google スプレッドシートを開き、新しいスプレッドシートを作成します。</p>
-          <a href="https://sheets.google.com" target="_blank" class="btn">Google スプレッドシートを開く</a>
-        </div>
-      </div>
-
-      <div class="step-container">
-        <div class="step-number">2</div>
-        <div class="step-content">
-          <div class="step-title">Apps Script エディタを開く</div>
-          <p>スプレッドシートのメニューから以下の操作を行います：</p>
-          <ol>
-            <li>「拡張機能」メニューをクリック</li>
-            <li>「Apps Script」を選択</li>
-            <li>新しいタブでApps Scriptエディタが開きます</li>
-          </ol>
-        </div>
-      </div>
-
-      <div class="step-container">
-        <div class="step-number">3</div>
-        <div class="step-content">
-          <div class="step-title">Code.gs ファイルにプログラムを貼り付け</div>
-          <p>Apps Scriptエディタで以下の操作を行います：</p>
-          <ol>
-            <li>既存のコード（function myFunction() {...}）をすべて削除</li>
-            <li>提供された「Code.gs」の内容をすべてコピーして貼り付け</li>
-            <li>Ctrl+S（Mac：Cmd+S）で保存</li>
-          </ol>
-          <div class="alert alert-warning">
-            <strong>重要：</strong>既存のコードは完全に削除して、新しいコードに置き換えてください。
-          </div>
-        </div>
-      </div>
-
-      <div class="step-container">
-        <div class="step-number">4</div>
-        <div class="step-content">
-          <div class="step-title">Sidebar.html ファイルを作成</div>
-          <p>サイドバー用のHTMLファイルを作成します：</p>
-          <ol>
-            <li>左側のファイル一覧で「+」ボタンをクリック</li>
-            <li>「HTML ファイル」を選択</li>
-            <li>ファイル名を「Sidebar」に変更</li>
-            <li>提供された「Sidebar.html」の内容をすべて貼り付け</li>
-            <li>保存（Ctrl+S）</li>
-          </ol>
-        </div>
-      </div>
-
-      <div class="step-container">
-        <div class="step-number">5</div>
-        <div class="step-content">
-          <div class="step-title">権限の許可</div>
-          <p>初回実行時に権限の許可が必要です：</p>
-          <ol>
-            <li>「実行」ボタン（▶️）をクリック</li>
-            <li>「承認が必要です」と表示されたら「権限を確認」をクリック</li>
-            <li>Googleアカウントを選択</li>
-            <li>「このアプリは確認されていません」と表示されたら「詳細」→「安全でないページに移動」をクリック</li>
-            <li>「許可」をクリック</li>
-          </ol>
-          <div class="alert alert-info">
-            <strong>安全性について：</strong>「確認されていません」という警告は、個人で作成したプログラムに対する一般的な警告です。このプログラムは安全です。
-          </div>
-        </div>
-      </div>
-
-      <div class="step-container">
-        <div class="step-number">6</div>
-        <div class="step-content">
-          <div class="step-title">動作確認</div>
-          <p>スプレッドシートのタブに戻り、以下を確認します：</p>
-          <ul>
-            <li>メニューに「学級通信支援」が追加されている</li>
-            <li>「学級通信支援」→「サイドバーを開く」でサイドバーが表示される</li>
-            <li>APIキーを設定して「✅ APIキーが設定済みです」と表示される</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
     <!-- 文体学習 -->
     <div class="section" id="style-learning">
-      <h2>4. 文体学習の設定</h2>
+      <h2>4. 文体学習の設定（任意だが推奨）</h2>
       
       <p>AIが先生の書き方に似た文章を作れるよう、過去の学級通信から文体を学習させます。<span class="highlight">この手順は最初に1回だけ行えば、その後は自動で先生の文体で文章を作成</span>してくれます。</p>
 
@@ -590,7 +619,8 @@
           <div class="step-title">サンプル用シートを作成</div>
           <p>文体学習用のシートを作成します：</p>
           <ol>
-            <li>「学級通信支援」メニュー → 「文体サンプル用シートを作成/表示」をクリック</li>
+            <li>サイドバーの「🎨 私の文体を学習」セクションを確認</li>
+            <li>「サンプル用シートを作成」ボタンをクリック</li>
             <li>「文体サンプル_学級通信」という新しいシートが作成されます</li>
           </ol>
         </div>
@@ -648,20 +678,6 @@ A4: 来月の学習発表会に向けて、練習が始まりました。一人�
           <div class="alert alert-warning">
             <strong>注意：</strong>サンプルが3件未満の場合はエラーになります。最低3件、推奨5件以上のサンプルを用意してください。
           </div>
-        </div>
-      </div>
-
-      <div class="step-container">
-        <div class="step-number">5</div>
-        <div class="step-content">
-          <div class="step-title">分析結果の確認（任意）</div>
-          <p>分析結果を確認・編集したい場合：</p>
-          <ol>
-            <li>「分析結果を表示・編集」ボタンをクリック</li>
-            <li>「文体プロファイル_学級通信」シートが開きます</li>
-            <li>分析された文体の特徴が表示されます</li>
-            <li>必要に応じて内容を編集し、「文体プロファイルを再読込」を実行</li>
-          </ol>
         </div>
       </div>
     </div>
@@ -730,7 +746,7 @@ A4: 来月の学習発表会に向けて、練習が始まりました。一人�
           <p>空欄の場合は目的に応じた適切な長さで作成されます。特定の文字数が必要な場合のみ入力してください。</p>
 
           <h4>対象学年：</h4>
-          <p>担当している学年を選択すると、その学年に適した漢字レベルと表現で文章が作成されます。</p>
+          <p>担当している学年を選択すると、その学年の保護者に適した漢字レベルと表現で文章が作成されます。</p>
         </div>
       </div>
 
@@ -801,6 +817,20 @@ A4: 来月の学習発表会に向けて、練習が始まりました。一人�
     <div class="section" id="troubleshooting">
       <h2>7. トラブルシューティング</h2>
 
+      <h3>テンプレートコピー時の問題</h3>
+      
+      <h4>「学級通信支援」メニューが表示されない</h4>
+      <ul>
+        <li><strong>原因：</strong>コピー直後でプログラムが読み込まれていない</li>
+        <li><strong>解決方法：</strong>ページを再読み込み（F5キー）、数分待ってから再確認</li>
+      </ul>
+
+      <h4>権限エラーが発生する</h4>
+      <ul>
+        <li><strong>原因：</strong>初回実行時の権限許可が必要</li>
+        <li><strong>解決方法：</strong>「権限を確認」→「詳細」→「安全でないページに移動」→「許可」</li>
+      </ul>
+
       <h3>APIキー関連の問題</h3>
       
       <h4>「APIキーが未設定です」エラー</h4>
@@ -841,18 +871,18 @@ A4: 来月の学習発表会に向けて、練習が始まりました。一人�
         <li><strong>解決方法：</strong>メモの表現をより一般的で中性的な言葉に変更</li>
       </ul>
 
-      <h3>権限・アクセス関連の問題</h3>
-
-      <h4>「このアプリは確認されていません」警告</h4>
-      <ul>
-        <li><strong>原因：</strong>個人で作成したアプリに対する標準的な警告</li>
-        <li><strong>解決方法：</strong>「詳細」→「安全でないページに移動」で続行</li>
-      </ul>
+      <h3>学校環境での制限</h3>
 
       <h4>学校のアカウントでAPIが使えない</h4>
       <ul>
         <li><strong>原因：</strong>学校の管理者がAPI使用を制限している</li>
         <li><strong>解決方法：</strong>個人のGoogleアカウントを使用</li>
+      </ul>
+
+      <h4>外部サービスへのアクセスが制限されている</h4>
+      <ul>
+        <li><strong>原因：</strong>学校のネットワークでGemini APIがブロックされている</li>
+        <li><strong>解決方法：</strong>自宅のネットワークから使用、または学校のIT担当者に相談</li>
       </ul>
     </div>
 
@@ -934,12 +964,28 @@ A4: 来月の学習発表会に向けて、練習が始まりました。一人�
         <strong>重要な心構え：</strong><br>
         このツールは「文章作成の補助」として活用し、最終的には先生ご自身の判断と調整で、心のこもった学級通信を完成させることが大切です。AIが作成した文章を「たたき台」として、先生ならではの温かみや個性を加えてください。
       </div>
+
+      <h3>データの管理とバックアップ</h3>
+
+      <div class="alert alert-success">
+        <strong>大切なデータの保護：</strong>
+        <ul>
+          <li>文体プロファイルシートを定期的にコピーして保存</li>
+          <li>サンプル文章は別途テキストファイルでも保存</li>
+          <li>APIキーは安全な場所にメモしておく</li>
+          <li>スプレッドシート全体を定期的にダウンロード</li>
+        </ul>
+      </div>
     </div>
   </div>
 
   <div class="footer">
-    <p>学級通信アシスト - 完全使い方ガイド</p>
+    <p>学級通信アシスト - 使い方ガイド</p>
     <p>先生方の学級通信作成をAIがお手伝いします</p>
+    <br>
+    <a href="https://bit.ly/otayorikun" target="_blank" class="template-link">
+      📋 テンプレートをコピーして始める
+    </a>
   </div>
 </body>
 </html>
