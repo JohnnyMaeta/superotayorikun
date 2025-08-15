@@ -12,7 +12,7 @@ const SHEET_PROFILE = '文体プロファイル_学級通信';
 
 function onOpen() {
   const ui = SpreadsheetApp.getUi();
-  ui.createMenu('学級通信支援')
+  ui.createMenu('学級通信文章作成くん')
     .addItem('サイドバーを開く', 'showSidebar')
     .addSeparator()
     .addItem('文体サンプル用シートを作成/表示', 'ensureSampleSheet')
@@ -25,7 +25,7 @@ function onOpen() {
 }
 
 function showSidebar() {
-  const html = HtmlService.createHtmlOutputFromFile('Sidebar').setTitle('学級通信アシスト');
+  const html = HtmlService.createHtmlOutputFromFile('Sidebar').setTitle('学級通信文章作成くん');
   SpreadsheetApp.getUi().showSidebar(html);
 }
 
