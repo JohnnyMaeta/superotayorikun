@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>学級通信アシスト - 完全使い方ガイド</title>
+  <style>
+    :root {
+      --primary-blue: #1976d2;
+      --light-blue: #e3f2fd;
+      --dark-blue: #0d47a1;
+      --success-green: #4caf50;
+      --warning-orange: #ff9800;
+      --error-red: #f44336;
+      --text-dark: #333;
+      --text-light: #666;
+      --bg-light: #f9f9f9;
+      --card-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    * {
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Hiragino Sans", sans-serif;
+      line-height: 1.7;
+      color: var(--text-dark);
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+    }
+    
+    .header {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 40px 20px;
+      text-align: center;
+      border-radius: 16px;
+      margin-bottom: 30px;
+      box-shadow: var(--card-shadow);
+    }
+    
+    .header h1 {
+      margin: 0 0 15px 0;
+      font-size: 36px;
+      color: var(--dark-blue);
+      font-weight: 700;
+    }
+    
+    .header .subtitle {
+      font-size: 18px;
+      color: var(--text-light);
+      margin: 0;
+    }
+    
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    
+    .toc {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: var(--card-shadow);
+    }
+    
+    .toc h2 {
+      margin: 0 0 20px 0;
+      color: var(--primary-blue);
+      font-size: 24px;
+      border-bottom: 2px solid var(--light-blue);
+      padding-bottom: 10px;
+    }
+    
+    .toc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    
+    .toc a {
+      display: block;
+      padding: 12px 16px;
+      color: var(--primary-blue);
+      text-decoration: none;
+      border-radius: 8px;
+      transition: background-color 0.2s;
+      border-left: 4px solid var(--light-blue);
+    }
+    
+    .toc a:hover {
+      background-color: var(--light-blue);
+    }
+    
+    .section {
+      background: white;
+      border-radius: 12px;
+      padding: 40px;
+      margin-bottom: 30px;
+      box-shadow: var(--card-shadow);
+    }
+    
+    h2 {
+      font-size: 28px;
+      color: var(--primary-blue);
+      margin: 0 0 25px 0;
+      padding-bottom: 15px;
+      border-bottom: 3px solid var(--light-blue);
+      position: relative;
+    }
+    
+    h2::before {
+      content: "";
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+      width: 80px;
+      height: 3px;
+      background: var(--primary-blue);
+    }
+    
+    h3 {
+      font-size: 22px;
+      color: var(--dark-blue);
+      margin: 30px 0 20px 0;
+      padding: 15px 20px;
+      background: linear-gradient(135deg, var(--light-blue) 0%, #f8f9fa 100%);
+      border-radius: 8px;
+      border-left: 5px solid var(--primary-blue);
+    }
+    
+    h4 {
+      font-size: 18px;
+      color: var(--text-dark);
+      margin: 25px 0 15px 0;
+      font-weight: 600;
+    }
+    
+    p, li {
+      font-size: 16px;
+      margin-bottom: 12px;
+    }
+    
+    .step-container {
+      background: linear-gradient(135deg, #f8f9ff 0%, #f1f3ff 100%);
+      border-radius: 12px;
+      padding: 30px;
+      margin: 25px 0;
+      border: 2px solid #e2e8f0;
+      position: relative;
+    }
+    
+    .step-number {
+      background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+      color: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 20px;
+      position: absolute;
+      top: -25px;
+      left: 30px;
+      box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
+    }
+    
+    .step-content {
+      padding-top: 15px;
+    }
+    
+    .step-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 15px;
+    }
+    
+    .alert {
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+      position: relative;
+      padding-left: 60px;
+    }
+    
+    .alert::before {
+      position: absolute;
+      left: 20px;
+      top: 20px;
+      font-size: 24px;
+    }
+    
+    .alert-info {
+      background: #e3f2fd;
+      border: 2px solid #2196f3;
+      color: #0d47a1;
+    }
+    
+    .alert-info::before {
+      content: "💡";
+    }
+    
+    .alert-warning {
+      background: #fff3e0;
+      border: 2px solid #ff9800;
+      color: #e65100;
+    }
+    
+    .alert-warning::before {
+      content: "⚠️";
+    }
+    
+    .alert-success {
+      background: #e8f5e9;
+      border: 2px solid #4caf50;
+      color: #2e7d32;
+    }
+    
+    .alert-success::before {
+      content: "✅";
+    }
+    
+    .alert-danger {
+      background: #ffebee;
+      border: 2px solid #f44336;
+      color: #c62828;
+    }
+    
+    .alert-danger::before {
+      content: "🚨";
+    }
+    
+    .code-block {
+      background: #2d3748;
+      color: #e2e8f0;
+      padding: 20px;
+      border-radius: 8px;
+      font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+      font-size: 14px;
+      overflow-x: auto;
+      margin: 20px 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin: 30px 0;
+    }
+    
+    .feature-card {
+      background: linear-gradient(135deg, #f8f9ff 0%, #f1f3ff 100%);
+      padding: 25px;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      text-align: center;
+      transition: transform 0.2s;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .feature-icon {
+      font-size: 48px;
+      margin-bottom: 15px;
+    }
+    
+    .feature-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 10px;
+    }
+    
+    .feature-desc {
+      color: var(--text-light);
+      font-size: 14px;
+    }
+    
+    .btn {
+      display: inline-block;
+      padding: 12px 24px;
+      background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 600;
+      transition: transform 0.2s;
+      box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
+    }
+    
+    .btn:hover {
+      transform: translateY(-2px);
+      color: white;
+      text-decoration: none;
+    }
+    
+    ol, ul {
+      padding-left: 25px;
+    }
+    
+    li {
+      margin-bottom: 8px;
+    }
+    
+    .highlight {
+      background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 600;
+      color: #e65100;
+    }
+    
+    .footer {
+      background: rgba(45, 55, 72, 0.95);
+      color: white;
+      text-align: center;
+      padding: 40px 20px;
+      border-radius: 12px;
+      margin-top: 40px;
+    }
+    
+    @media (max-width: 768px) {
+      body {
+        padding: 10px;
+      }
+      
+      .section {
+        padding: 25px 20px;
+      }
+      
+      .header h1 {
+        font-size: 28px;
+      }
+      
+      .step-container {
+        padding: 20px 15px 20px 15px;
+      }
+      
+      .step-number {
+        position: relative;
+        top: 0;
+        left: 0;
+        margin: 0 auto 20px auto;
+      }
+      
+      .toc-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>📚 学級通信アシスト</h1>
+    <p class="subtitle">AIを使って学級通信を簡単に作成するツールの完全ガイド</p>
+  </div>
+
+  <div class="container">
+    <!-- 目次 -->
+    <div class="toc">
+      <h2>📋 目次</h2>
+      <div class="toc-grid">
+        <div>
+          <a href="#overview">1. このツールについて</a>
+          <a href="#setup">2. 初期設定（APIキー取得）</a>
+          <a href="#install">3. ツールのインストール</a>
+          <a href="#style-learning">4. 文体学習の設定</a>
+        </div>
+        <div>
+          <a href="#create-newsletter">5. 学級通信の作成方法</a>
+          <a href="#advanced">6. 高度な使い方</a>
+          <a href="#troubleshooting">7. トラブルシューティング</a>
+          <a href="#tips">8. 効果的な使い方のコツ</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 概要 -->
+    <div class="section" id="overview">
+      <h2>1. このツールについて</h2>
+      
+      <p>学級通信アシストは、Google スプレッドシートとAI（Gemini）を組み合わせて、先生方の学級通信作成を大幅に効率化するツールです。<span class="highlight">箇条書きメモを入力するだけで、先生の文体に合わせた自然な文章を自動生成</span>します。</p>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon">✍️</div>
+          <div class="feature-title">文体学習機能</div>
+          <div class="feature-desc">過去の学級通信から先生独自の文体を学習し、同じトーンで文章を作成</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📝</div>
+          <div class="feature-title">簡単操作</div>
+          <div class="feature-desc">箇条書きメモを入力するだけで、完成度の高い文章に自動変換</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🎯</div>
+          <div class="feature-title">学年別対応</div>
+          <div class="feature-desc">対象学年に応じた適切な漢字レベルと表現で自動調整</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔒</div>
+          <div class="feature-title">プライバシー保護</div>
+          <div class="feature-desc">個人名や学校名などの情報を自動で保護・一般化</div>
+        </div>
+      </div>
+
+      <div class="alert alert-success">
+        <strong>このツールでできること：</strong>
+        <ul>
+          <li>箇条書きメモから自然な学級通信の文章を瞬時に生成</li>
+          <li>先生の文体を学習して、いつもの書き方に近い文章を作成</li>
+          <li>学年に応じた適切な漢字レベルと表現の自動調整</li>
+          <li>行事報告、日常活動、保護者メッセージなど目的別の文章作成</li>
+          <li>「その他（メモ内容最優先）」モードで自由度の高い文章生成</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 初期設定 -->
+    <div class="section" id="setup">
+      <h2>2. 初期設定（APIキー取得）</h2>
+      
+      <p>AIを使用するためには、Google の「Gemini API」のキーが必要です。<span class="highlight">無料で取得でき、個人利用なら月15万文字まで無料</span>で使用できます。</p>
+
+      <div class="step-container">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <div class="step-title">Google AI Studio にアクセス</div>
+          <p>以下のリンクをクリックして、Google AI Studio のページを開きます。</p>
+          <a href="https://aistudio.google.com/app/apikey" target="_blank" class="btn">Google AI Studio を開く</a>
+          <div class="alert alert-info">
+            <strong>学校アカウントをお使いの場合：</strong><br>
+            管理者によってAPIの使用が制限されている場合があります。接続できない場合は個人のGoogleアカウントをご利用ください。
+          </div>
+        </div>
+      </div>
+
+      <div class="step-container">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <div class="step-title">Googleアカウントでログイン</div>
+          <p>普段お使いのGoogleアカウントでログインしてください。学校のアカウントでも個人のアカウントでも使用可能です。</p>
+        </div>
+      </div>
+
+      <div class="step-container">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <div class="step-title">APIキーを作成</div>
+          <p>「Create API key」または「Create API key in new project」ボタンをクリックします。</p>
+          <ol>
+            <li>「Create API key in new project」を選択</li>
+            <li>少し待つと、長い英数字の文字列（APIキー）が表示されます</li>
+            <li>「Copy」ボタンを押してコピーします</li>
+          </ol>
+          <div class="code-block">
+例：AIzaSyDh8F2X7vQ9mN3pL5kJ8hG6fD4sA1qW2eR3tY7uI9oP0...
+（実際はもっと長い文字列です）</div>
+          <div class="alert alert-danger">
+            <strong>重要：</strong>このAPIキーは他人に見せないでください。パスワードのような重要な情報です。万が一漏洩した場合は、すぐに新しいキーを作成してください。
+          </div>
+        </div>
+      </div>
+
+      <div class="step-container">
+        <div class="step-number">4</div>
+        <div class="step-content">
+          <div class="step-title">APIキーをアプリに設定</div>
+          <p>取得したAPIキーをスプレッドシートのツールに設定します。</p>
+          <ol>
+            <li>スプレッドシートで「学級通信支援」メニュー → 「サイドバーを開く」をクリック</li>
+            <li>サイドバー下部の「⚙️ 設定」セクションでAPIキーを入力</li>
+            <li>「APIキーを保存」ボタンをクリック</li>
+            <li>「✅ APIキーが設定済みです」と表示されれば完了</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- インストール -->
+    <div class="section" id="install">
+      <h2>3. ツールのインストール</h2>
+      
+      <p>Google スプレッドシートに学級通信アシストのプログラムを設定します。</p>
+
+      <div class="step-container">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <div class="step-title">新しいスプレッドシートを作成</div>
+          <p>Google スプレッドシートを開き、新しいスプレッドシートを作成します。</p>
+          <a href="https://sheets.google.com" target="_blank" class="btn">Google スプレッドシートを開く</a>
+        </div>
+      </div>
+
+      <div class="step-container">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <div class="step-title">Apps Script エディタを開く</div>
+          <p>スプレッドシートのメニューから以下の操作を行います：</p>
+          <ol>
+            <li>「拡張機能」メニューをクリック</li>
+            <li>「Apps Script」を選択</li>
+            <li>新しいタブでApps Scriptエディタが開きます</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="step-container">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <div class="step-title">Code.gs ファイルにプログラムを貼り付け</div>
+          <p>Apps Scriptエディタで以下の操作を行います：</p>
+          <ol>
+            <li>既存のコード（function myFunction() {...}）をすべて削除</li>
+            <li>提供された「Code.gs」の内容をすべてコピーして貼り付け</li>
+            <li>Ctrl+S（Mac：Cmd+S）で保存</li>
+          </ol>
+          <div class="alert alert-warning">
+            <strong>重要：</strong>既存のコードは完全に削除して、新しいコードに置き換えてください。
+          </div>
+        </div>
+      </div>
+
+      <div class="step-container">
+        <div class="step-number">4</div>
+        <div class="step-content">
+          <div class="step-title">Sidebar.html ファイルを作成</div>
+          <p>サイドバー用のHTMLファイルを作成します：</p>
+          <ol>
+            <li>左側のファイル一覧で「+」ボタンをクリック</li>
+            <li>「HTML ファイル」を選択</li>
+            <li>ファイル名を「Sidebar」に変更</li>
+            <li>提供された「Sidebar.html」の内容をすべて貼り付け</li>
+            <li>保存（Ctrl+S）</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="step-container">
+        <div class="step-number">5</div>
+        <div class="step-content">
+          <div class="step-title">権限の許可</div>
+          <p>初回実行時に権限の許可が必要です：</p>
+          <ol>
+            <li>「実行」ボタン（▶️）をクリック</li>
+            <li>「承認が必要です」と表示されたら「権限を確認」をクリック</li>
+            <li>Googleアカウントを選択</li>
+            <li>「このアプリは確認されていません」と表示されたら「詳細」→「安全でないページに移動」をクリック</li>
+            <li>「許可」をクリック</li>
+          </ol>
+          <div class="alert alert-info">
+            <strong>安全性について：</strong>「確認されていません」という警告は、個人で作成したプログラムに対する一般的な警告です。このプログラムは安全です。
+          </div>
+        </div>
+      </div>
+
+      <div class="step-container">
+        <div class="step-number">6</div>
+        <div class="step-content">
+          <div class="step-title">動作確認</div>
+          <p>スプレッドシートのタブに戻り、以下を確認します：</p>
+          <ul>
+            <li>メニューに「学級通信支援」が追加されている</li>
+            <li>「学級通信支援」→「サイドバーを開く」でサイドバーが表示される</li>
+            <li>APIキーを設定して「✅ APIキーが設定済みです」と表示される</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 文体学習 -->
+    <div class="section" id="style-learning">
+      <h2>4. 文体学習の設定</h2>
+      
+      <p>AIが先生の書き方に似た文章を作れるよう、過去の学級通信から文体を学習させます。<span class="highlight">この手順は最初に1回だけ行えば、その後は自動で先生の文体で文章を作成</span>してくれます。</p>
+
+      <div class="step-container">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <div class="step-title">サンプル用シートを作成</div>
+          <p>文体学習用のシートを作成します：</p>
+          <ol>
+            <li>「学級通信支援」メニュー → 「文体サンプル用シートを作成/表示」をクリック</li>
+            <li>「文体サンプル_学級通信」という新しいシートが作成されます</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="step-container">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <div class="step-title">過去の学級通信を準備</div>
+          <p>先生が過去に作成した学級通信の文章を5〜10件準備します：</p>
+          <div class="alert alert-info">
+            <strong>サンプル準備のポイント：</strong>
+            <ul>
+              <li>できるだけ多様な内容（行事、日常、お知らせなど）を含める</li>
+              <li>1件につき100〜500文字程度の文章が理想的</li>
+              <li><strong>個人名、学校名、具体的な日付は必ず削除または一般化する</strong></li>
+              <li>先生の「らしさ」が出ている文章を選ぶ</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-container">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <div class="step-title">サンプル文章を入力</div>
+          <p>「文体サンプル_学級通信」シートのA列に、過去の学級通信を1つずつ貼り付けます：</p>
+          <ul>
+            <li>A2セル：1つ目の学級通信記事</li>
+            <li>A3セル：2つ目の学級通信記事</li>
+            <li>A4セル：3つ目の学級通信記事</li>
+            <li>...（以下同様に、1セル1記事で入力）</li>
+          </ul>
+          
+          <h4>入力例：</h4>
+          <div class="code-block">A2: 先日の遠足では、子どもたちの元気な笑顔をたくさん見ることができました。友達と協力してゲームに取り組む姿や、自然の中で新しい発見をする様子は、とても印象的でした。
+
+A3: 算数の時間では、グループで問題を解く活動を行いました。最初は戸惑っていた子どもたちも、お互いに教え合いながら、最後まであきらめずに取り組むことができました。
+
+A4: 来月の学習発表会に向けて、練習が始まりました。一人ひとりが自分の役割を理解し、クラス全体で協力して素晴らしい発表を作り上げていきたいと思います。</div>
+        </div>
+      </div>
+
+      <div class="step-container">
+        <div class="step-number">4</div>
+        <div class="step-content">
+          <div class="step-title">文体分析を実行</div>
+          <p>サンプル文章の入力が完了したら、文体分析を実行します：</p>
+          <ol>
+            <li>サイドバーの「🎨 私の文体を学習」セクションを確認</li>
+            <li>「私の文体を分析する」ボタンをクリック</li>
+            <li>処理に30秒〜1分程度かかります</li>
+            <li>「✅ 文体分析済み」と表示されれば完了</li>
+          </ol>
+          <div class="alert alert-warning">
+            <strong>注意：</strong>サンプルが3件未満の場合はエラーになります。最低3件、推奨5件以上のサンプルを用意してください。
+          </div>
+        </div>
+      </div>
+
+      <div class="step-container">
+        <div class="step-number">5</div>
+        <div class="step-content">
+          <div class="step-title">分析結果の確認（任意）</div>
+          <p>分析結果を確認・編集したい場合：</p>
+          <ol>
+            <li>「分析結果を表示・編集」ボタンをクリック</li>
+            <li>「文体プロファイル_学級通信」シートが開きます</li>
+            <li>分析された文体の特徴が表示されます</li>
+            <li>必要に応じて内容を編集し、「文体プロファイルを再読込」を実行</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- 学級通信作成 -->
+    <div class="section" id="create-newsletter">
+      <h2>5. 学級通信の作成方法</h2>
+      
+      <p>準備が完了したら、いよいよ学級通信を作成します。<span class="highlight">箇条書きのメモを入力するだけで、自然な文章に変換</span>してくれます。</p>
+
+      <div class="step-container">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <div class="step-title">出力先セルを選択</div>
+          <p>生成された文章を書き出したいセルを、スプレッドシート上でクリックして選択します（例：B2セル）。</p>
+          <div class="alert alert-info">
+            <strong>ポイント：</strong>サイドバーの「🔧 デバッグ機能」セクションで、現在選択しているセルが正しく表示されているか確認できます。
+          </div>
+        </div>
+      </div>
+
+      <div class="step-container">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <div class="step-title">箇条書きメモを入力</div>
+          <p>サイドバーの「📝 学級通信を作成」セクションで、「箇条書きメモ」欄に記事にしたい内容を入力します。</p>
+          
+          <h4>入力例：</h4>
+          <div class="code-block">運動会の練習を頑張っている様子
+リレーの選手が決まったこと
+応援団の練習も始まった
+保護者の皆様への応援のお願い
+当日の持ち物について</div>
+
+          <div class="alert alert-success">
+            <strong>効果的なメモの書き方：</strong>
+            <ul>
+              <li>1行に1つの内容を書く</li>
+              <li>具体的な様子や感情を含める（「頑張っている」「喜んでいる」など）</li>
+              <li>保護者に伝えたいポイントを明確にする</li>
+              <li>箇条書きの順番が文章の流れになります</li>
+            </ul>
+          </div>
+
+          <div class="alert alert-info">
+            <strong>便利機能：</strong>スプレッドシートのセルにメモが既に入力されている場合、そのセルを選択してから「選択セルの内容を取得」ボタンを押すと、メモ欄に自動で取り込めます。
+          </div>
+        </div>
+      </div>
+
+      <div class="step-container">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <div class="step-title">目的と設定を選択</div>
+          <p>文章の目的や設定を選択します：</p>
+          
+          <h4>主な目的：</h4>
+          <ul>
+            <li><strong>行事の報告・連絡（A）：</strong>運動会、遠足、学習発表会などの行事について（250〜400字）</li>
+            <li><strong>日常活動の報告（B）：</strong>普段の授業や休み時間の様子について（300〜500字）</li>
+            <li><strong>保護者へのメッセージ（C）：</strong>お願いや学級経営方針について（250〜450字）</li>
+            <li><strong>その他（メモ内容最優先）（D）：</strong>特定の構成にとらわれず、メモ内容を最優先で反映（200〜600字）</li>
+          </ul>
+
+          <h4>およその文字数：</h4>
+          <p>空欄の場合は目的に応じた適切な長さで作成されます。特定の文字数が必要な場合のみ入力してください。</p>
+
+          <h4>対象学年：</h4>
+          <p>担当している学年を選択すると、その学年に適した漢字レベルと表現で文章が作成されます。</p>
+        </div>
+      </div>
+
+      <div class="step-container">
+        <div class="step-number">4</div>
+        <div class="step-content">
+          <div class="step-title">学級通信を作成</div>
+          <p>設定が完了したら、「学級通信を作成」ボタンをクリックします。</p>
+          <ol>
+            <li>ボタンをクリック</li>
+            <li>「処理中です...」と表示されます（30秒〜1分程度）</li>
+            <li>「✅ 学級通信を作成しました！」と表示されれば完了</li>
+            <li>選択したセルに文章が自動で入力されます</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="step-container">
+        <div class="step-number">5</div>
+        <div class="step-content">
+          <div class="step-title">文章の確認と調整</div>
+          <p>生成された文章を確認し、必要に応じて手直しします：</p>
+          <ul>
+            <li>内容に不足がないか確認</li>
+            <li>文章の流れや表現を調整</li>
+            <li>学校や学級特有の情報を追加</li>
+            <li>最終的な文字数や体裁を整える</li>
+          </ul>
+          
+          <div class="alert alert-success">
+            <strong>調整のポイント：</strong>AIが作成した文章は「たたき台」として活用し、先生ならではの視点や温かみを加えることで、より良い学級通信になります。
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 高度な使い方 -->
+    <div class="section" id="advanced">
+      <h2>6. 高度な使い方</h2>
+
+      <h3>文体プロファイルのカスタマイズ</h3>
+      <p>分析された文体をより細かく調整することができます：</p>
+      <ol>
+        <li>「分析結果を表示・編集」ボタンをクリック</li>
+        <li>「文体プロファイル_学級通信」シートが開きます</li>
+        <li>各項目（dos、donts、phrase_bank等）を直接編集</li>
+        <li>「文体プロファイルを再読込」を実行して反映</li>
+      </ol>
+
+      <h3>複数の文体管理</h3>
+      <p>異なる文体やトーンで文章を作成したい場合：</p>
+      <ul>
+        <li>目的別に異なるサンプルで分析</li>
+        <li>プロファイルシートをコピーして保存</li>
+        <li>必要に応じて切り替えて使用</li>
+      </ul>
+
+      <h3>デバッグ機能の活用</h3>
+      <p>文章が生成されない場合のトラブルシューティング：</p>
+      <ul>
+        <li>「🔧 デバッグ機能」で現在のセル選択状況を確認</li>
+        <li>「テスト文章を書き込み」で動作確認</li>
+        <li>エラーメッセージの詳細を確認</li>
+      </ul>
+    </div>
+
+    <!-- トラブルシューティング -->
+    <div class="section" id="troubleshooting">
+      <h2>7. トラブルシューティング</h2>
+
+      <h3>APIキー関連の問題</h3>
+      
+      <h4>「APIキーが未設定です」エラー</h4>
+      <ul>
+        <li><strong>原因：</strong>APIキーが正しく保存されていない</li>
+        <li><strong>解決方法：</strong>APIキーを再度入力して保存</li>
+      </ul>
+
+      <h4>「Gemini APIエラー (403)」</h4>
+      <ul>
+        <li><strong>原因：</strong>APIキーが無効または期限切れ</li>
+        <li><strong>解決方法：</strong>Google AI Studioで新しいAPIキーを作成</li>
+      </ul>
+
+      <h4>「Gemini APIエラー (429)」</h4>
+      <ul>
+        <li><strong>原因：</strong>API使用量の上限に達した</li>
+        <li><strong>解決方法：</strong>時間をおいて再試行、または有料プランへの変更を検討</li>
+      </ul>
+
+      <h3>文章生成の問題</h3>
+
+      <h4>文章がセルに書き込まれない</h4>
+      <ul>
+        <li><strong>原因：</strong>出力先セルが正しく選択されていない</li>
+        <li><strong>解決方法：</strong>1つのセルを明確に選択してから実行、デバッグ機能でテスト</li>
+      </ul>
+
+      <h4>箇条書きメモが反映されない</h4>
+      <ul>
+        <li><strong>原因：</strong>メモが抽象的すぎる、文体プロファイルの影響が強すぎる</li>
+        <li><strong>解決方法：</strong>より具体的なメモを書く、「その他（メモ内容最優先）」を選択</li>
+      </ul>
+
+      <h4>「出力がブロックされました」エラー</h4>
+      <ul>
+        <li><strong>原因：</strong>AIの安全性フィルターに引っかかった</li>
+        <li><strong>解決方法：</strong>メモの表現をより一般的で中性的な言葉に変更</li>
+      </ul>
+
+      <h3>権限・アクセス関連の問題</h3>
+
+      <h4>「このアプリは確認されていません」警告</h4>
+      <ul>
+        <li><strong>原因：</strong>個人で作成したアプリに対する標準的な警告</li>
+        <li><strong>解決方法：</strong>「詳細」→「安全でないページに移動」で続行</li>
+      </ul>
+
+      <h4>学校のアカウントでAPIが使えない</h4>
+      <ul>
+        <li><strong>原因：</strong>学校の管理者がAPI使用を制限している</li>
+        <li><strong>解決方法：</strong>個人のGoogleアカウントを使用</li>
+      </ul>
+    </div>
+
+    <!-- 効果的な使い方のコツ -->
+    <div class="section" id="tips">
+      <h2>8. 効果的な使い方のコツ</h2>
+
+      <h3>質の高い箇条書きメモの書き方</h3>
+      
+      <h4>✅ 良いメモの例</h4>
+      <div class="code-block">運動会の練習で子どもたちが一生懸命取り組んでいる様子
+リレーの選手が決まり、みんなで喜び合った場面
+応援団の練習が始まり、声を合わせて頑張っている
+保護者の皆様には当日の応援をお願いしたい
+水筒と帽子の準備をお願いします</div>
+
+      <h4>❌ 改善が必要なメモの例</h4>
+      <div class="code-block">運動会
+リレー
+応援団
+お願い
+持ち物</div>
+
+      <div class="alert alert-success">
+        <strong>改善のポイント：</strong>
+        <ul>
+          <li><strong>具体的な様子を含める：</strong>「頑張っている」「喜んでいる」「協力している」</li>
+          <li><strong>感情や反応を表現：</strong>子どもたちの気持ちや保護者への想い</li>
+          <li><strong>完文でなくても構わない：</strong>「〜について」「〜の様子」でもOK</li>
+          <li><strong>順序を意識：</strong>メモの順番が文章の流れになります</li>
+        </ul>
+      </div>
+
+      <h3>目的別の使い分け</h3>
+
+      <h4>行事の報告・連絡（目的A）</h4>
+      <ul>
+        <li>行事の概要と子どもたちの様子</li>
+        <li>印象的だった場面やエピソード</li>
+        <li>今後の予定や連絡事項</li>
+        <li>保護者への感謝やお願い</li>
+      </ul>
+
+      <h4>日常活動の報告（目的B）</h4>
+      <ul>
+        <li>授業中の取り組み姿勢</li>
+        <li>友達同士の関わり</li>
+        <li>成長が見られた場面</li>
+        <li>今後の学習予定</li>
+      </ul>
+
+      <h4>保護者へのメッセージ（目的C）</h4>
+      <ul>
+        <li>学級経営の方針や想い</li>
+        <li>家庭での協力をお願いしたいこと</li>
+        <li>子どもたちの成長に対する期待</li>
+        <li>保護者との連携について</li>
+      </ul>
+
+      <h4>その他（目的D）</h4>
+      <ul>
+        <li>特定の構成にとらわれない自由な文章</li>
+        <li>複数の要素を含む複合的な内容</li>
+        <li>メモ内容を最大限に活かしたい場合</li>
+      </ul>
+
+      <h3>継続的な改善方法</h3>
+
+      <div class="alert alert-info">
+        <strong>定期的な見直し：</strong>
+        <ul>
+          <li>月に1回程度、生成された文章の質を確認</li>
+          <li>必要に応じて文体サンプルを追加</li>
+          <li>文体プロファイルの微調整</li>
+        </ul>
+      </div>
+
+      <div class="alert alert-warning">
+        <strong>重要な心構え：</strong><br>
+        このツールは「文章作成の補助」として活用し、最終的には先生ご自身の判断と調整で、心のこもった学級通信を完成させることが大切です。AIが作成した文章を「たたき台」として、先生ならではの温かみや個性を加えてください。
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>学級通信アシスト - 完全使い方ガイド</p>
+    <p>先生方の学級通信作成をAIがお手伝いします</p>
+  </div>
+</body>
+</html>

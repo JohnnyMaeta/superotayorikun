@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>学級通信アシスト</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      margin: 0; padding: 16px; line-height: 1.6; font-size: 14px; color: #333; background-color: #fafafa;
+    }
+    .container { background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); padding: 20px; margin-bottom: 16px; }
+    h2 { margin: 0 0 16px 0; font-size: 18px; color: #1976d2; border-bottom: 2px solid #1976d2; padding-bottom: 8px; }
+    .form-group { margin-bottom: 16px; }
+    label { display: block; margin-bottom: 4px; font-weight: 500; color: #555; }
+    input[type="text"], input[type="number"], input[type="password"], select, textarea {
+      width: 100%; padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; font-family: inherit;
+    }
+    textarea { resize: vertical; min-height: 80px; }
+    button { background: #1976d2; color: white; border: none; padding: 10px 16px; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 500; width: 100%; margin-bottom: 8px; }
+    button:hover { background: #1565c0; }
+    button:disabled { background: #ccc; cursor: not-allowed; }
+    .btn-secondary { background: #757575; }
+    .btn-secondary:hover { background: #616161; }
+    .btn-danger { background: #d32f2f; }
+    .btn-danger:hover { background: #c62828; }
+    .btn-debug { background: #ff9800; font-size: 12px; padding: 6px 12px; }
+    .btn-debug:hover { background: #f57c00; }
+    .status { padding: 12px; border-radius: 4px; margin-bottom: 16px; font-size: 13px; }
+    .status-info { background: #e3f2fd; color: #1976d2; border: 1px solid #bbdefb; }
+    .status-success { background: #e8f5e8; color: #2e7d32; border: 1px solid #c8e6c9; }
+    .status-warning { background: #fff3e0; color: #f57c00; border: 1px solid #ffcc02; }
+    .status-error { background: #ffebee; color: #d32f2f; border: 1px solid #ffcdd2; }
+    .small-text { font-size: 12px; color: #666; margin-top: 4px; }
+    .loading { display: none; text-align: center; padding: 20px; color: #666; }
+    .loading.show { display: block; }
+    .spinner { border: 2px solid #f3f3f3; border-top: 2px solid #1976d2; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; display: inline-block; margin-right: 8px; }
+    @keyframes spin { 0% { transform: rotate(0deg);} 100% { transform: rotate(360deg);} }
+    .debug-section { background: #fff3e0; border: 1px solid #ffcc02; border-radius: 4px; padding: 12px; margin-top: 16px; }
+    .debug-section h4 { margin: 0 0 8px 0; color: #f57c00; font-size: 14px; }
+    .cell-info { font-family: monospace; font-size: 12px; background: #f5f5f5; padding: 4px 8px; border-radius: 3px; margin: 4px 0; }
+  </style>
+</head>
+<body>
+  <div id="status"></div>
+
+  <div class="container">
+    <h2>📝 学級通信を作成</h2>
+    
+    <div class="form-group">
+      <label for="memoText">箇条書きメモ（必須）</label>
+      <textarea id="memoText" placeholder="例：&#10;運動会の練習を頑張っている様子&#10;リレーの選手が決まったこと&#10;保護者への応援のお願い"></textarea>
+      <button type="button" onclick="loadSelectedCells()" class="btn-secondary">選択セルの内容を取得</button>
+      <div class="small-text">スプレッドシートでセルを選択してから上のボタンを押すと、内容をメモ欄に取り込めます</div>
+    </div>
+
+    <div class="form-group">
+  <label for="goalCode">主な目的</label>
+  <select id="goalCode">
+    <option value="A">行事の報告・連絡</option>
+    <option value="B" selected>日常活動の報告</option>
+    <option value="C">保護者へのメッセージ</option>
+    <option value="D">その他（メモ内容最優先）</option>
+  </select>
+</div>
+
+    <div class="form-group">
+      <label for="charCount">およその文字数（任意）</label>
+      <input type="number" id="charCount" placeholder="例: 400" min="100" max="1000" step="50">
+      <div class="small-text">空欄の場合は目的に応じた適切な長さで作成します</div>
+    </div>
+
+    <div class="form-group">
+      <label for="gradeLevel">対象学年</label>
+      <select id="gradeLevel">
+        <option value="elementary_1">小学1年生</option>
+        <option value="elementary_2">小学2年生</option>
+        <option value="elementary_3">小学3年生</option>
+        <option value="elementary_4">小学4年生</option>
+        <option value="elementary_5">小学5年生</option>
+        <option value="elementary_6">小学6年生</option>
+        <option value="middle_school">中学生</option>
+        <option value="high_school">高校生</option>
+      </select>
+    </div>
+
+    <button type="button" onclick="generateNewsletter()" id="generateBtn">学級通信を作成</button>
+    <div class="small-text">※ 出力先のセルをスプレッドシートで選択してからボタンを押してください</div>
+    
+    <div class="debug-section">
+      <h4>🔧 デバッグ機能</h4>
+      <div id="cellInfo" class="cell-info">現在のセル選択状況を確認中...</div>
+      <button type="button" onclick="testCellWrite()" class="btn-debug">テスト文章を書き込み</button>
+      <div class="small-text">書き込みが正常に動作するかテストします</div>
+    </div>
+  </div>
+
+  <div class="container">
+    <h2>🎨 私の文体を学習</h2>
+    <div id="styleStatus"></div>
+    <button type="button" onclick="createSampleSheet()" class="btn-secondary">サンプル用シートを作成</button>
+    <button type="button" onclick="analyzeStyle()" id="analyzeBtn">私の文体を分析する</button>
+    <button type="button" onclick="showProfileSheet()" class="btn-secondary">分析結果を表示・編集</button>
+    <div class="small-text">
+      <strong>使い方：</strong><br>
+      1. 「サンプル用シートを作成」でシートを作成<br>
+      2. 過去の学級通信を5〜10件、A列に貼り付け<br>
+      3. 「私の文体を分析する」で学習実行
+    </div>
+  </div>
+
+  <div class="container">
+    <h2>⚙️ 設定</h2>
+    <div class="form-group">
+      <label for="apiKey">Gemini APIキー</label>
+      <input type="password" id="apiKey" placeholder="AIを使うためのキーを入力">
+      <div class="small-text">
+        <a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio</a>で取得できます
+      </div>
+    </div>
+    <button type="button" onclick="saveApiKey()">APIキーを保存</button>
+    <button type="button" onclick="deleteApiKey()" class="btn-danger">APIキーを削除</button>
+  </div>
+
+  <div class="loading" id="loading">
+    <div class="spinner"></div>処理中です...
+  </div>
+
+  <script>
+    let initState = null;
+
+    function init() {
+      showLoading(true);
+      google.script.run
+        .withSuccessHandler(function(state) {
+          initState = state;
+          updateUI();
+          showLoading(false);
+        })
+        .withFailureHandler(function(error) {
+          showError('初期化に失敗しました: ' + error.message);
+          showLoading(false);
+        })
+        .getInitState();
+    }
+
+    function updateUI() {
+      updateStatus();
+      updateStyleStatus();
+      updateCellInfo();
+    }
+
+    function updateStatus() {
+      const statusDiv = document.getElementById('status');
+      if (initState.apiKeySaved) {
+        statusDiv.innerHTML = '<div class="status status-success">✅ APIキーが設定済みです</div>';
+      } else {
+        statusDiv.innerHTML = '<div class="status status-warning">⚠️ APIキーを設定してください</div>';
+      }
+    }
+
+    function updateStyleStatus() {
+      const styleDiv = document.getElementById('styleStatus');
+      if (initState.styleProfileSummary) {
+        const profile = initState.styleProfileSummary;
+        styleDiv.innerHTML = `
+          <div class="status status-success">
+            <strong>✅ 文体分析済み</strong><br>
+            スタイル名: ${profile.style_name}<br>
+            特徴: ${profile.summary.substring(0, 100)}...
+          </div>`;
+      } else if (initState.hasSampleSheet) {
+        styleDiv.innerHTML = '<div class="status status-info">📋 サンプルシートが作成済みです。文体分析を実行してください。</div>';
+      } else {
+        styleDiv.innerHTML = '<div class="status status-info">💡 まずはサンプル用シートを作成してください。</div>';
+      }
+    }
+
+    function updateCellInfo() {
+      const cellInfoDiv = document.getElementById('cellInfo');
+      if (initState.activeInfo) {
+        const info = initState.activeInfo;
+        cellInfoDiv.innerHTML = `選択中: ${info.sheetName}!${info.a1Notation} (行${info.row}, 列${info.col})`;
+      } else {
+        cellInfoDiv.innerHTML = 'セルが選択されていません（A1セルに書き込まれます）';
+      }
+    }
+
+    function generateNewsletter() {
+      const memoText = document.getElementById('memoText').value.trim();
+      const goalCode = document.getElementById('goalCode').value;
+      const charCount = parseInt(document.getElementById('charCount').value) || null;
+      const gradeLevel = document.getElementById('gradeLevel').value;
+
+      if (!memoText) {
+        showError('箇条書きメモを入力してください。');
+        return;
+      }
+      if (!initState.apiKeySaved) {
+        showError('APIキーを設定してください。');
+        return;
+      }
+
+      showLoading(true);
+      document.getElementById('generateBtn').disabled = true;
+
+      google.script.run
+        .withSuccessHandler(function(result) {
+          showSuccess(`学級通信を作成しました！\n書き出し先: ${result.writtenTo}\n処理したメモ: ${result.processedMemos}件\n文字数: ${result.textLength}字`);
+          showLoading(false);
+          document.getElementById('generateBtn').disabled = false;
+          setTimeout(init, 1000);
+        })
+        .withFailureHandler(function(error) {
+          showError('作成に失敗しました: ' + error.message);
+          showLoading(false);
+          document.getElementById('generateBtn').disabled = false;
+        })
+        .generateNewsletter({
+          memoText: memoText,
+          goalCode: goalCode,
+          charCount: charCount,
+          gradeLevel: gradeLevel
+        });
+    }
+
+    function loadSelectedCells() {
+      showLoading(true);
+      google.script.run
+        .withSuccessHandler(function(content) {
+          if (content) {
+            document.getElementById('memoText').value = content;
+            showSuccess('選択セルの内容を取得しました。');
+          } else {
+            showWarning('セルが選択されていないか、内容が空です。');
+          }
+          showLoading(false);
+        })
+        .withFailureHandler(function(error) {
+          showError('セル内容の取得に失敗しました: ' + error.message);
+          showLoading(false);
+        })
+        .getSelectedCellContent();
+    }
+
+    function testCellWrite() {
+      const testText = `テスト文章です。\n現在時刻: ${new Date().toLocaleString('ja-JP')}\n\nこの文章が正常に表示されていれば、書き込み機能は正常に動作しています。`;
+      
+      showLoading(true);
+      google.script.run
+        .withSuccessHandler(function(result) {
+          showSuccess(`テスト書き込み成功！\n書き出し先: ${result.writtenTo}\n文字数: ${result.textLength}字`);
+          showLoading(false);
+        })
+        .withFailureHandler(function(error) {
+          showError('テスト書き込みに失敗しました: ' + error.message);
+          showLoading(false);
+        })
+        .writeToSpecificCell('Sheet1', 'A1', testText);
+    }
+
+    function createSampleSheet() {
+      showLoading(true);
+      google.script.run
+        .withSuccessHandler(function() {
+          showSuccess('サンプル用シートを作成しました。A列に過去の学級通信を貼り付けてください。');
+          initState.hasSampleSheet = true;
+          updateStyleStatus();
+          showLoading(false);
+        })
+        .withFailureHandler(function(error) {
+          showError('シート作成に失敗しました: ' + error.message);
+          showLoading(false);
+        })
+        .ensureSampleSheet();
+    }
+
+    function analyzeStyle() {
+      if (!initState.apiKeySaved) {
+        showError('APIキーを設定してください。');
+        return;
+      }
+      showLoading(true);
+      document.getElementById('analyzeBtn').disabled = true;
+
+      google.script.run
+        .withSuccessHandler(function(profile) {
+          showSuccess('文体分析が完了しました！');
+          initState.styleProfileSummary = profile;
+          updateStyleStatus();
+          showLoading(false);
+          document.getElementById('analyzeBtn').disabled = false;
+        })
+        .withFailureHandler(function(error) {
+          showError('文体分析に失敗しました: ' + error.message);
+          showLoading(false);
+          document.getElementById('analyzeBtn').disabled = false;
+        })
+        .analyzeMyStyle();
+    }
+
+    function showProfileSheet() {
+      google.script.run
+        .withSuccessHandler(function() {
+          showSuccess('文体プロファイルシートを表示しました。');
+        })
+        .withFailureHandler(function(error) {
+          showError('シート表示に失敗しました: ' + error.message);
+        })
+        .showProfileSheet();
+    }
+
+    function saveApiKey() {
+      const key = document.getElementById('apiKey').value.trim();
+      if (!key) {
+        showError('APIキーを入力してください。');
+        return;
+      }
+
+      showLoading(true);
+      google.script.run
+        .withSuccessHandler(function() {
+          showSuccess('APIキーを保存しました。');
+          initState.apiKeySaved = true;
+          updateStatus();
+          document.getElementById('apiKey').value = '';
+          showLoading(false);
+        })
+        .withFailureHandler(function(error) {
+          showError('APIキーの保存に失敗しました: ' + error.message);
+          showLoading(false);
+        })
+        .saveApiKey(key);
+    }
+
+    function deleteApiKey() {
+      if (!confirm('APIキーを削除しますか？')) return;
+
+      showLoading(true);
+      google.script.run
+        .withSuccessHandler(function() {
+          showSuccess('APIキーを削除しました。');
+          initState.apiKeySaved = false;
+          updateStatus();
+          showLoading(false);
+        })
+        .withFailureHandler(function(error) {
+          showError('APIキーの削除に失敗しました: ' + error.message);
+          showLoading(false);
+        })
+        .deleteApiKey();
+    }
+
+    function showLoading(show) {
+      document.getElementById('loading').classList.toggle('show', show);
+    }
+
+    function showMessage(message, type) {
+      const statusDiv = document.getElementById('status');
+      statusDiv.innerHTML = `<div class="status status-${type}">${message.replace(/\n/g, '<br>')}</div>`;
+      setTimeout(() => { if (initState) updateStatus(); }, 8000);
+    }
+
+    function showSuccess(message) { showMessage('✅ ' + message, 'success'); }
+    function showError(message) { showMessage('❌ ' + message, 'error'); }
+    function showWarning(message) { showMessage('⚠️ ' + message, 'warning'); }
+    function showInfo(message) { showMessage('ℹ️ ' + message, 'info'); }
+
+    init();
+  </script>
+</body>
+</html>
